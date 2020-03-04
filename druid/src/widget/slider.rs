@@ -16,13 +16,17 @@
 
 use crate::kurbo::{Circle, Point, Rect, RoundedRect, Shape, Size};
 use crate::theme;
-use crate::widget::Align;
 use crate::{
     BoxConstraints, Env, Event, EventCtx, LayoutCtx, LifeCycle, LifeCycleCtx, LinearGradient,
     PaintCtx, RenderContext, UnitPoint, UpdateCtx, Widget,
 };
 
+const DEFAULT_WIDTH: f64 = 100.;
+
 /// A slider, allowing interactive update of a numeric value.
+///
+/// This slider implements `Widget<f64>`, and works on values clamped
+/// in the range 0..1.0.
 #[derive(Debug, Clone, Default)]
 pub struct Slider {
     knob_pos: Point,
@@ -31,8 +35,9 @@ pub struct Slider {
 }
 
 impl Slider {
-    pub fn new() -> impl Widget<f64> {
-        Align::vertical(UnitPoint::CENTER, Self::default())
+    /// Create a new `Slider`.
+    pub fn new() -> Slider {
+        Default::default()
     }
 }
 
@@ -104,8 +109,6 @@ impl Widget<f64> for Slider {
     ) -> Size {
         bc.debug_check("Slider");
 
-        let default_width = 100.0;
-
         if bc.is_width_bounded() {
             bc.constrain(Size::new(
                 bc.max().width,
@@ -113,7 +116,7 @@ impl Widget<f64> for Slider {
             ))
         } else {
             bc.constrain(Size::new(
-                default_width,
+                DEFAULT_WIDTH,
                 env.get(theme::BASIC_WIDGET_HEIGHT),
             ))
         }
