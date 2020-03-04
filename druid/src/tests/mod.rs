@@ -194,8 +194,8 @@ fn adding_child_lifecycle() {
     let record_new_child = Recording::default();
     let record_new_child2 = record_new_child.clone();
 
-    let replacer = ReplaceChild::new(TextBox::raw(), move || {
-        Split::vertical(TextBox::raw(), TextBox::raw().record(&record_new_child2))
+    let replacer = ReplaceChild::new(TextBox::new(), move || {
+        Split::vertical(TextBox::new(), TextBox::new().record(&record_new_child2))
     });
 
     let widget = Split::vertical(Label::new("hi").record(&record), replacer);
@@ -224,15 +224,15 @@ fn participate_in_autofocus() {
 
     // this widget starts with a single child, and will replace them with a split
     // when we send it a command.
-    let replacer = ReplaceChild::new(TextBox::raw().with_id(id_4), move || {
-        Split::vertical(TextBox::raw().with_id(id_5), TextBox::raw().with_id(id_6))
+    let replacer = ReplaceChild::new(TextBox::new().with_id(id_4), move || {
+        Split::vertical(TextBox::new().with_id(id_5), TextBox::new().with_id(id_6))
     });
 
     let widget = Split::vertical(
         Flex::row()
-            .with_child(TextBox::raw().with_id(id_1), 1.0)
-            .with_child(TextBox::raw().with_id(id_2), 1.0)
-            .with_child(TextBox::raw().with_id(id_3), 1.0),
+            .with_child(TextBox::new().with_id(id_1), 1.0)
+            .with_child(TextBox::new().with_id(id_2), 1.0)
+            .with_child(TextBox::new().with_id(id_3), 1.0),
         replacer,
     );
 
